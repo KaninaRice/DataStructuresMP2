@@ -47,6 +47,24 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E> imp
             return searchSupport(localRoot.right, target);
 
     }
+    public BinaryNode<E> searchNode(E target) {
+        return searchNodeSupport(root, target);
+    }
+
+    private BinaryNode<E> searchNodeSupport(BinaryNode<E> localRoot, E target) {
+        if (localRoot == null) {
+            return null;
+        }
+        //
+        int comparisonResults = target.compareTo(localRoot.data);
+        if (comparisonResults == 0)
+            return localRoot;
+        else if (comparisonResults < 0)
+            return searchNodeSupport(localRoot.left, target);
+        else
+            return searchNodeSupport(localRoot.right, target);
+
+    }
 
     public E delete(E target) {
         root = deleteSupport(root, target);
@@ -156,29 +174,130 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E> imp
     }
 
     public String levelorderSupport(BinaryNode<E> root, StringBuilder levelorder){
-        //Implement the level order
+        for(int i = 1; i <= treeHeight(root); i++) {
+        	appendLevel(root, i, levelorder);
+        }
+        
         return levelorder.toString();
+    }
+    
+    void appendLevel(BinaryNode<E> root, int level, StringBuilder levelOrder) {
+    	if(root == null)
+    		return;
+        if(level ==1 )
+        	levelOrder.append(root.data + " ");
+        else if (level > 1) {
+        	appendLevel(root.left, level-1, levelOrder);
+        	appendLevel(root.right, level - 1, levelOrder);
+        }
+    }
+    
+    public int treeHeight(BinaryNode<E> tree) {
+    	if(tree == null)
+    		return 0;
+    	else {
+    		int lheight = treeHeight(tree.left);
+    		int rheight = treeHeight(tree.right);
+    		
+    		if(lheight > rheight)
+    			return lheight + 1;
+    		else
+    			return rheight +1;
+    	}
     }
 
     public BinaryNode<E> minimum(){
         //Implement the minimum method
-        return null;
+    	BinaryNode<E> minRoot;
+    	minRoot = root;
+    	while(minRoot.left != null) {
+    		minRoot = minRoot.getLeftChild();
+    	}
+    	
+        return minRoot;
     }
+    
     public BinaryNode<E> maximum(){
         //Implement the maximum method
-        return null;
+    	BinaryNode<E> maxRoot;
+    	maxRoot = root;
+    	while(maxRoot.right != null) {
+    		maxRoot = maxRoot.getRightChild();
+    	}
+    	
+        return maxRoot;
+        //return null;
     }
 
     public BinaryNode<E> successor(E target){
-        //Implement the method to find the successor of the target key.
-        return null;
-    }
+        // step 1 of the above algorithm
+    	BinaryNode<E> currentNode = searchNode(target);
+    	 // if right child exists
+    	BinaryNode<E> localroot = root;
+    	
+    	if(currentNode.right != null) {
+    		return minValue(currentNode.right);
+    	}
+    	BinaryNode<E> succ = null;
+    	
+    	while(localroot != null) {
+    		if(target.compareTo(localroot.data) < 0) {
+    			succ = localroot;
+    			localroot = localroot.left;
+    		}
+    		else if (target.compareTo(localroot.data) > 0) {
+    			localroot = localroot.right;
+    		}
+    		else
+    			break;
+    	}
+    	return succ;
+    } 
+    
+    BinaryNode<E> minValue(BinaryNode<E> node) 
+    { 
+        BinaryNode<E> current = node; 
 
+        while (current.left != null) { 
+            current = current.left; 
+        } 
+        return current; 
+    } 
+	
+   
     public BinaryNode<E> predecessor(E target){
-        //Implement the method to find the predecessor of the target key.
-        return null;
+    	BinaryNode<E> currentNode = searchNode(target);
+    	BinaryNode<E> localroot = root;
+   	
+    	if(currentNode.left != null) {
+    		return maxValue(currentNode.left);
+    	}
+   	
+    	BinaryNode<E> pred = null;
+   	
+    	while(localroot != null) {
+    		if(target.compareTo(localroot.data) > 0) {
+    			pred = localroot;
+    			localroot = localroot.left;
+    		}
+    		else if (target.compareTo(localroot.data) < 0) {
+    			localroot = localroot.left;
+    		}
+    		else
+    			break;
+    	}
+    	return pred;
     }
-
+    
+    BinaryNode<E> maxValue(BinaryNode<E> node) 
+    { 
+        BinaryNode<E> current = node; 
+        while (current.right != null) { 
+            current = current.right; 
+        } 
+        return current; 
+    } 
+	
 
 
 }
