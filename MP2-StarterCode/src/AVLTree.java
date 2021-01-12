@@ -1,6 +1,6 @@
 
 
-/* AVLTree Implementation
+/* AVLTree Implementation huhu
  * reference: Koffman, E.B. & Wolfgang P.A.T. (2016). Data Structures: Abstractions and Designs
  * */
 public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate<E> {
@@ -77,9 +77,9 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 	private AVLNode<E> rebalanceLeft(AVLNode<E> localRoot) {
 		 // Obtain reference to left child.
 		 AVLNode<E> leftChild = (AVLNode<E>) localRoot.left;
-		 // See whether left‐right heavy.
+		 // See whether leftâ€�right heavy.
 		 if (leftChild.balance > AVLNode.BALANCED) {
-		 // Obtain reference to left‐right child.
+		 // Obtain reference to leftâ€�right child.
 		 AVLNode<E> leftRightChild = (AVLNode<E>) leftChild.right;
 		 /** Adjust the balances to be their new values after
 		 the rotations are performed.
@@ -95,7 +95,7 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 		 }
 		 // Perform left rotation.
 		 localRoot.left = rotateLeft(leftChild);
-		 } else { //Left‐Left case
+		 } else { //Leftâ€�Left case
 		 /** In this case the leftChild (the new root) and the root
 		 (new right child) will both be balanced after the rotation.
 		 */
