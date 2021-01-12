@@ -28,6 +28,23 @@ public class Main {
 
         System.out.println("Searching for 31: " + bst.search(31)); //null
         System.out.println("Searching for 10: " + bst.search(10)); //null
+        
+        System.out.println("Red Black Tree");
+        RedBlackTree<Integer> rbt = new RedBlackTree<Integer>();
+        rbt.insert(21);
+        rbt.insert(10);
+        rbt.insert(40);
+        rbt.insert(42);
+        rbt.insert(31);
+        rbt.insert(22);
+        rbt.insert(35);
+        System.out.println(rbt.levelorder());
+        System.out.println(rbt.delete(31));
+        System.out.println(rbt.levelorder());
+        System.out.println(rbt.delete(10));
+        System.out.println(rbt.levelorder());
+        System.out.println(rbt.delete(35));
+        System.out.println(rbt.levelorder());
 
     }
 }
