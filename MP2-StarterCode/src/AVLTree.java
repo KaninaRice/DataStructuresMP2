@@ -1,6 +1,6 @@
 
 
-/* AVLTree Implementation huhu
+/* AVLTree Implementation huhuhu
  * reference: Koffman, E.B. & Wolfgang P.A.T. (2016). Data Structures: Abstractions and Designs
  * */
 public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate<E> {
