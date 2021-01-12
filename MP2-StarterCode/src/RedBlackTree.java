@@ -236,65 +236,50 @@ public class RedBlackTree<E extends Comparable<E>> extends BinarySearchTreeWithR
     		return node.parent.right;
     }
 
-    private void fixDoubleBlack(RedBlackNode<E> node)
-    {
-        if(node == this.root)
-        {
+    private void fixDoubleBlack(RedBlackNode<E> node) {
+        if(node == this.root) {
             return;
         }
 
         RedBlackNode<E> sibling = getSibling(node);
         RedBlackNode<E> parent = node.parent;
 
-        if(sibling == null)
-        {
+        if(sibling == null) {
             this.fixDoubleBlack(parent);
         }
-        else
-        {
-            if(sibling.isRed())
-            {
+        else {
+            if(sibling.isRed()) {
                 parent.setAsRed(true);
                 sibling.setAsRed(false);
-                if(sibling == sibling.parent.left)
-                {
+                if(sibling == sibling.parent.left) {
                     rotateRight(parent);
                 }
-                else
-                {
+                else {
                     rotateLeft(parent);
                 }
                 fixDoubleBlack(node);
             }
-            else
-            {
-                if((sibling.left != null && sibling.left.isRed()) || (sibling.right != null && sibling.right.isRed()))
-                {
-                    if(sibling.left != null && sibling.left.isRed())
-                    {
-                        if(sibling == sibling.parent.left)
-                        {
+            else {
+                if((sibling.left != null && sibling.left.isRed()) || (sibling.right != null && sibling.right.isRed())) {
+                    if(sibling.left != null && sibling.left.isRed()) {
+                        if(sibling == sibling.parent.left) {
                             sibling.left.setAsRed(sibling.isRed());
                             sibling.setAsRed(parent.isRed());
                             rotateRight(parent);
                         }
-                        else
-                        {
+                        else {
                             sibling.left.setAsRed(parent.isRed());
                             rotateRight(sibling);
                             rotateLeft(parent);
                         }
                     }
-                    else
-                    {
-                        if(sibling == sibling.parent.left)
-                        {
+                    else  {
+                        if(sibling == sibling.parent.left) {
                             sibling.right.setAsRed(parent.isRed());
                             rotateLeft(sibling);
                             rotateRight(parent);
                         }
-                        else
-                        {
+                        else {
                             sibling.right.setAsRed(sibling.isRed());
                             sibling.setAsRed(parent.isRed());
                             rotateLeft(parent);
@@ -302,15 +287,12 @@ public class RedBlackTree<E extends Comparable<E>> extends BinarySearchTreeWithR
                     }
                     parent.setAsRed(false);
                 } 
-                else
-                {
+                else {
                     sibling.setAsRed(true);
-                    if(!parent.isRed())
-                    {
+                    if(!parent.isRed()) {
                         fixDoubleBlack(parent);
                     }
-                    else
-                    {
+                    else {
                         parent.setAsRed(false);
                     }
                 }
@@ -319,13 +301,10 @@ public class RedBlackTree<E extends Comparable<E>> extends BinarySearchTreeWithR
     }
     
     public boolean insert(E item) {
-        //implement insert method 
-        if(search(item) == item) //checks if target exists in this tree
-        {
+        if(search(item) == item) {
             return false;
         }
-        else
-        {
+        else {
             //implement insert code here
             this.root = insertSupporter(this.root, item);
             RedBlackNode<E> node = nodeSearch(item);
@@ -334,36 +313,29 @@ public class RedBlackTree<E extends Comparable<E>> extends BinarySearchTreeWithR
         }
     }
 
-    private RedBlackNode<E> insertSupporter (RedBlackNode<E> node, E item)
-    {
-        if(node == null)
-        {
+    private RedBlackNode<E> insertSupporter (RedBlackNode<E> node, E item) {
+        if(node == null) {
             return (new RedBlackNode<E> (item));
         }
-        else if (item.compareTo(node.data) < 0)
-        {
+        else if (item.compareTo(node.data) < 0) {
             node.left = insertSupporter(node.left, item);
             node.left.parent = node;
         }
-        else if (item.compareTo(node.data) > 0)
-        {
+        else if (item.compareTo(node.data) > 0) {
             node.right = insertSupporter(node.right, item);
             node.right.parent = node;
         }
-        else
-        {
+        else {
             return node;
         }
         return node;
     }
 
     public E delete(E target){
-        if(search(target) != target) 
-        {
+        if(search(target) != target) {
             return null;
         }
-        else
-        {
+        else {
             RedBlackNode<E> node = nodeSearch(target);
             deleteSupporter(node);
             return target;
@@ -438,10 +410,10 @@ public class RedBlackTree<E extends Comparable<E>> extends BinarySearchTreeWithR
         return postorderTraversal.toString();
     }
 
-    public void postorderSupport(RedBlackNode<E> root, StringBuilder postorder) {
+    public void postorderSup(RedBlackNode<E> root, StringBuilder postorder) {
         if(root != null) {
-            postorderSupport(root.getLeftChild(), postorder);
-            postorderSupport(root.getRightChild(), postorder);
+            postorderSup(root.getLeftChild(), postorder);
+            postorderSup(root.getRightChild(), postorder);
             postorder.append(root + " ");
         }
     }
@@ -452,11 +424,11 @@ public class RedBlackTree<E extends Comparable<E>> extends BinarySearchTreeWithR
         return inorderTraversal.toString();
     }
 
-    public void inorderSupport(RedBlackNode<E> root, StringBuilder inorder) {
+    public void inorderSup(RedBlackNode<E> root, StringBuilder inorder) {
         if(root != null) {
-            inorderSupport(root.getLeftChild(), inorder);
+            inorderSup(root.getLeftChild(), inorder);
             inorder.append(root + " ");
-            inorderSupport(root.getRightChild(), inorder);
+            inorderSup(root.getRightChild(), inorder);
         }
     }
     
@@ -478,7 +450,7 @@ public class RedBlackTree<E extends Comparable<E>> extends BinarySearchTreeWithR
     
 
 
-    private class RedBlackNode<E>{
+    private class RedBlackNode<E> extends BinaryTree.BinaryNode {
         private boolean isRed;
         protected E data;
         protected RedBlackNode<E> left;
@@ -486,33 +458,30 @@ public class RedBlackTree<E extends Comparable<E>> extends BinarySearchTreeWithR
         protected RedBlackNode<E> parent;
 
 
-        public RedBlackNode(E data) {
+        @SuppressWarnings("unchecked")
+		public RedBlackNode(E data) {
+        	super(data);
             this.data = data;
             isRed = true;
         }
 
-        public void changeData(E data)
-        {
+        public void changeData(E data) {
             this.data = data;
         }
 
-        public void setAsRed(boolean isRed)
-        {
+        public void setAsRed(boolean isRed) {
             this.isRed = isRed;
         }
 
-        public boolean isRed()
-        {
+        public boolean isRed() {
             return this.isRed;
         }
 
-        public RedBlackNode<E> getLeftChild()
-        {
+        public RedBlackNode<E> getLeftChild() {
             return left;
         }
 
-        public RedBlackNode<E> getRightChild()
-        {
+        public RedBlackNode<E> getRightChild() {
             return right;
         }
 

@@ -1,4 +1,5 @@
-import java.util.ArrayList;
+
+
 
 public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E> implements SearchTree<E> {
 
@@ -207,7 +208,6 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E> imp
     }
 
     public BinaryNode<E> minimum(){
-        //Implement the minimum method
     	BinaryNode<E> minRoot;
     	minRoot = root;
     	while(minRoot.left != null) {
@@ -218,7 +218,6 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E> imp
     }
     
     public BinaryNode<E> maximum(){
-        //Implement the maximum method
     	BinaryNode<E> maxRoot;
     	maxRoot = root;
     	while(maxRoot.right != null) {
@@ -226,13 +225,10 @@ public class BinarySearchTree<E extends Comparable<E>> extends BinaryTree<E> imp
     	}
     	
         return maxRoot;
-        //return null;
     }
 
     public BinaryNode<E> successor(E target){
-        // step 1 of the above algorithm
     	BinaryNode<E> currentNode = searchNode(target);
-    	 // if right child exists
     	BinaryNode<E> localroot = root;
     	
     	if(currentNode.right != null) {
