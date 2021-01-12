@@ -1,3 +1,6 @@
+/* AVLTree Implementation
+ * reference: Koffman, E.B. & Wolfgang P.A.T. (2016). Data Structures: Abstractions and Designs
+ * */
 public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate<E> {
     private boolean increase;
     private AVLNode <E> root;
@@ -27,7 +30,7 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 				 decrementBalance(localRoot);
 				 if (localRoot.balance < AVLNode.LEFT_HEAVY) {
 					 increase = false;
-					 rotateLeft(localRoot);
+					 rebalanceLeft(localRoot);
 				 }
 			}
     	}
@@ -35,6 +38,13 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
     		increase=true;
     		//AVLNode<E> right = (AVLNode<E>)localRoot.getRightChild();
     		localRoot.right= inserts((AVLNode<E>)localRoot.right, item); 
+    		if (increase) {
+				 incrementBalance(localRoot);
+				 if (localRoot.balance < AVLNode.LEFT_HEAVY) {
+					 increase = false;
+					 //rebalanceRight(localRoot);
+				 }
+			}
     		}
 		return localRoot;
     }
@@ -53,16 +63,81 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 	}
 	private void incrementBalance(AVLNode<E> node) {
 		 // Increment the balance.
-		 node.balance--;
+		 node.balance++;
 		 if (node.balance == AVLNode.BALANCED) {
 		 /** If now balanced, overall height has not increased. */
 		 increase = false;
 		 }
 	}
 
+	private AVLNode<E> rebalanceLeft(AVLNode<E> localRoot) {
+		 // Obtain reference to left child.
+		 AVLNode<E> leftChild = (AVLNode<E>) localRoot.left;
+		 // See whether left‐right heavy.
+		 if (leftChild.balance > AVLNode.BALANCED) {
+		 // Obtain reference to left‐right child.
+		 AVLNode<E> leftRightChild = (AVLNode<E>) leftChild.right;
+		 /** Adjust the balances to be their new values after
+		 the rotations are performed.
+		 */
+		 if (leftRightChild.balance < AVLNode.BALANCED) {
+		 leftChild.balance = AVLNode.BALANCED;
+		 leftRightChild.balance = AVLNode.BALANCED;
+		 localRoot.balance = AVLNode.RIGHT_HEAVY;
+		 } else {
+		 leftChild.balance = AVLNode.LEFT_HEAVY;
+		 leftRightChild.balance = AVLNode.BALANCED;
+		 localRoot.balance = AVLNode.BALANCED;
+		 }
+		 // Perform left rotation.
+		 localRoot.left = rotateLeft(leftChild);
+		 } else { //Left‐Left case
+		 /** In this case the leftChild (the new root) and the root
+		 (new right child) will both be balanced after the rotation.
+		 */
+		 leftChild.balance = AVLNode.BALANCED;
+		 localRoot.balance = AVLNode.BALANCED;
+		 }
+		 // Now rotate the local root right.
+		 return (AVLNode<E>) rotateRight(localRoot);
+		}
+	
+	private AVLNode<E> rebalanceRight(AVLNode<E> localRoot) {
+        // Obtain a reference to the right child.
+        AVLNode<E> rightChild = (AVLNode<E>) localRoot.right;
+        // See whether left-right heavy.
+        if (rightChild.balance < AVLNode.BALANCED) {
+            // Obtain a reference to the right-left child.
+            AVLNode<E> rightLeftChild = (AVLNode<E>) rightChild.left;
+            		
+            if (rightLeftChild.balance > AVLNode.BALANCED) {
+                rightChild.balance = AVLNode.BALANCED;
+                rightLeftChild.balance = AVLNode.BALANCED;
+                localRoot.balance = AVLNode.LEFT_HEAVY;
+            } else if (rightLeftChild.balance < AVLNode.BALANCED) {
+                rightChild.balance = AVLNode.RIGHT_HEAVY;
+                rightLeftChild.balance = AVLNode.BALANCED;
+                localRoot.balance = AVLNode.BALANCED;
+            } else {
+                rightChild.balance = AVLNode.BALANCED;
+                localRoot.balance = AVLNode.BALANCED;
+            }
+            // Perform right rotation.
+            localRoot.right = rotateRight(rightChild);
+        } else { // Right-right case
+            /** In this case the rightChild (the new root) and the root (new left child) will both be balanced
+             *  after the rotation. */
+            rightChild.balance = AVLNode.BALANCED;
+            localRoot.balance = AVLNode.BALANCED;
+        }
+        // Now rotate the local root left.
+        return (AVLNode<E>) rotateLeft(localRoot);
+    }
     @Override
     public E delete(E target){
-        //implement method
+        if (exists(target)) {
+        	
+        }
         return null;
     }
 
