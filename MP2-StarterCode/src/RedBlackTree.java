@@ -1,4 +1,5 @@
 
+
 public class RedBlackTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate<E>{
 
     RedBlackNode<E> root;
