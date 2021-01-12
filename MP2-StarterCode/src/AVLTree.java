@@ -1,11 +1,40 @@
 public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate<E> {
     private boolean increase;
+    private AVLNode <E> root;
 
     @Override
     public boolean insert(E item) {
-        //implement method 
-        return false;
+    	increase=false;
+        root= inserts(root, item);
+        return addReturn;
     }
+    
+    public AVLNode<E> inserts(AVLNode <E> localRoot, E item){
+    	if (localRoot==null) { //empty tree, make new one
+    		addReturn=true;
+    		increase=true;
+    		return new AVLNode<E>(item);
+    	}
+    	else if (item.compareTo(extracted(localRoot)) == 0) {//duplicate; return false
+    		addReturn=false;
+    		increase=false;
+    		return null;
+    	}
+    	else if(item.compareTo(extracted(localRoot)) < 0) {//less than, add to left side
+    		increase=true;
+			localRoot.left= inserts((AVLNode<E>)localRoot.left, item); //recursive adding to the left subtree
+    	}
+    	else if(item.compareTo(extracted(localRoot)) > 0) {//greater than, add to right side
+    		increase=true;
+    		//AVLNode<E> right = (AVLNode<E>)localRoot.getRightChild();
+    		localRoot.right= inserts((AVLNode<E>)localRoot.right, item); 
+    		}
+		return localRoot;
+    }
+
+	private E extracted(AVLNode<E> localRoot) {
+		return (E)localRoot.data;
+	}
 
     @Override
     public E delete(E target){
@@ -49,12 +78,12 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 
         @Override
         protected BinaryNode getLeftChild() {
-            return super.getLeftChild();
+            return (AVLNode) super.getLeftChild();
         }
 
         @Override
-        protected BinaryNode getRightChild() {
-            return super.getRightChild();
+        protected AVLNode getRightChild() {
+            return (AVLNode) super.getRightChild();
         }
     }
 
