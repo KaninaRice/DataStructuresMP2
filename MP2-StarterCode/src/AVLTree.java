@@ -23,6 +23,13 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
     	else if(item.compareTo(extracted(localRoot)) < 0) {//less than, add to left side
     		increase=true;
 			localRoot.left= inserts((AVLNode<E>)localRoot.left, item); //recursive adding to the left subtree
+			if (increase) {
+				 decrementBalance(localRoot);
+				 if (localRoot.balance < AVLNode.LEFT_HEAVY) {
+					 increase = false;
+					 rotateLeft(localRoot);
+				 }
+			}
     	}
     	else if(item.compareTo(extracted(localRoot)) > 0) {//greater than, add to right side
     		increase=true;
@@ -34,6 +41,23 @@ public class AVLTree<E extends Comparable<E>> extends BinarySearchTreeWithRotate
 
 	private E extracted(AVLNode<E> localRoot) {
 		return (E)localRoot.data;
+	}
+	
+	private void decrementBalance(AVLNode<E> node) {
+		 // Decrement the balance.
+		 node.balance--;
+		 if (node.balance == AVLNode.BALANCED) {
+		 /** If now balanced, overall height has not increased. */
+		 increase = false;
+		 }
+	}
+	private void incrementBalance(AVLNode<E> node) {
+		 // Increment the balance.
+		 node.balance--;
+		 if (node.balance == AVLNode.BALANCED) {
+		 /** If now balanced, overall height has not increased. */
+		 increase = false;
+		 }
 	}
 
     @Override

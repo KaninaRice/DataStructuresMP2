@@ -38,9 +38,11 @@ public class Main {
         rbt.insert(31);
         rbt.insert(22);
         rbt.insert(35);
-        System.out.println(rbt.levelorder());
+        System.out.println("preorder: " + rbt.preorder());
+        System.out.println("inorder: " + rbt.inorder());
+        System.out.println("postorder: " + rbt.postorder());
         System.out.println(rbt.delete(31));
-        System.out.println(rbt.levelorder());
+        System.out.println("postorder: " + rbt.postorder());
         System.out.println(rbt.delete(10));
         System.out.println(rbt.levelorder());
         System.out.println(rbt.delete(35));
