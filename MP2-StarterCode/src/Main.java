@@ -43,7 +43,7 @@ public class Main {
         System.out.println("Inorder: " + rb.inorder());
         //1(black) 2(red) 4(black) 5(black) 7(black) 9(red) 
         System.out.println("Postorder: " + rb.postorder());
-        //1(black) 4(black) 2(red) 9(red) 7(black) 5(black) 
+        //1(black) 4(black) 2(red) 9(red) 7(black) 5(black) kkk
 
         RedBlackTree<String> rb2 = new RedBlackTree<String>();
         rb2.insert("Sirius");
